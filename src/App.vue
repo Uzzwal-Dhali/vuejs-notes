@@ -5,22 +5,32 @@
   const notes = ref([])
   const title = ref("")
   const body = ref("")
+  const errorMessageForTitle = ref("")
+  const errorMessageForBody = ref("")
 
   function getRandomColor() {
     return "hsl(" + Math.random() * 360 + ", 100%, 75%)"
   }
 
+  const titleHandle = () => {
+    console.log(title.value)
+  }
+
   const addNote = () => {
-    notes.value.push({
-      id: Math.floor(Math.random() * 1000000),
-      title: title.value,
-      body: body.value,
-      time: new Date(),
-      color: getRandomColor()
-    })
-    modal.value = false
-    title.value = ""
-    body.value = ""
+    if(title.value.length < 5 || body.value.length < 10){
+      return
+    } else {
+      notes.value.push({
+        id: Math.floor(Math.random() * 1000000),
+        title: title.value,
+        body: body.value,
+        time: new Date(),
+        color: getRandomColor()
+      })
+      modal.value = false
+      title.value = ""
+      body.value = ""
+    }
   }
 </script>
 
@@ -30,8 +40,25 @@
       <div class="close" @click="modal = false">
        <div class="cross"></div>
       </div>
-      <input v-model="title" type="text" placeholder="Note title">
+
+      <input @change="titleHandle()" v-model="title" type="text" placeholder="Note title">
+      <p v-if="title.length < 5" class="errorMessage">
+        <div v-if="!title">
+          Tittle should be minimum in 5 characters!
+        </div>
+        <div v-else>
+          {{ 5 - title.length }} characters left!
+        </div>
+      </p>
       <textarea v-model="body" cols="30" rows="10" placeholder="Your note"></textarea>
+      <p v-if="body.length < 10" class="errorMessage">
+        <div v-if="!body">
+          Body should be minimum in 10 characters!
+        </div>
+        <div v-else>
+          {{ 10 - body.length }} characters left!
+        </div>
+      </p>
       <button @click="addNote">Add Note</button>
     </div>
   </div>
