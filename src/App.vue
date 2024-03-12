@@ -1,6 +1,27 @@
 <script setup>
   import { ref } from 'vue'
   const modal = ref(false)
+
+  const notes = ref([])
+  const title = ref("")
+  const body = ref("")
+
+  function getRandomColor() {
+    return "hsl(" + Math.random() * 360 + ", 100%, 75%)"
+  }
+
+  const addNote = () => {
+    notes.value.push({
+      id: Math.floor(Math.random() * 1000000),
+      title: title.value,
+      body: body.value,
+      time: new Date(),
+      color: getRandomColor()
+    })
+    modal.value = false
+    title.value = ""
+    body.value = ""
+  }
 </script>
 
 <template>
@@ -9,9 +30,9 @@
       <div class="close" @click="modal = false">
        <div class="cross"></div>
       </div>
-      <input type="text">
-      <textarea name="" id="" cols="30" rows="10"></textarea>
-      <button>Add Note</button>
+      <input v-model="title" type="text" placeholder="Note title">
+      <textarea v-model="body" cols="30" rows="10" placeholder="Your note"></textarea>
+      <button @click="addNote">Add Note</button>
     </div>
   </div>
   <main>
@@ -21,10 +42,11 @@
         <button class="new" @click="modal=true">+ Add New</button>
       </div>
       <div class="notes">
-        <div class="note">
-          <h1 class="title">Title</h1>
-          <h4>12th March, 2024</h4>
-          <p class="body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, exercitationem commodi! Itaque ratione iste cum!</p>
+        <div v-for="note in notes" class="note" :style="{backgroundColor: note.color}">
+          <h1 class="title">{{ note.title }}</h1>
+          <!-- <h4 class="time">{{ note.time.toLocaleDateString("bn-BD") }}</h4> -->
+          <h4 class="time">{{ note.time.toDateString() }}</h4>
+          <p class="body">{{ note.body }}</p>
         </div>
       </div>
     </div>
@@ -136,8 +158,24 @@
       .notes {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
         .note {
-
+          padding: 15px;
+          border-radius: 10px;
+          .title {
+            font-size: 18px;
+            color: #777;
+          }
+          .time {
+            font-size: 10px;
+            font-weight: 100;
+            color: #777;
+            padding: 3px 0 7px;
+          }
+          .body {
+            color: #777;
+            line-height: 1;
+          }
         }
       }
     }
