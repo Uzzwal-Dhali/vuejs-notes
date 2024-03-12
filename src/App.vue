@@ -93,7 +93,7 @@
     .content {
       position: relative;
       background: white;
-      padding: 40px 30px;
+      padding: 30px 20px;
       border-radius: 10px;
       display: flex;
       flex-direction: column;
@@ -143,6 +143,12 @@
         border: 1px solid #d7d7d7;
         padding: 5px 10px;
       }
+      .errorMessage {
+        font-size: 11px;
+        div {
+          color: rgb(255, 75, 129);
+        }
+      }
       button {
         background: #00c2c4;
         color: white;
@@ -156,12 +162,10 @@
     }
   }
   main {
-    padding: 50px;
+    padding: 30px 15px;
     .container {
       max-width: 1300px;
       margin: 0px auto;
-      background: white;
-      padding: 30px;
       border-radius: 15px;
       .header {
         display: flex;
@@ -170,6 +174,7 @@
         margin-bottom: 30px;
         .title {
           font-weight: 300;
+          font-size: 24px;
         }
         .new {
           background: #00c2c4;
@@ -184,7 +189,7 @@
       }
       .notes {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         .note {
           padding: 15px;
@@ -201,7 +206,7 @@
           }
           .body {
             color: #777;
-            line-height: 1;
+            line-height: 1.1;
           }
         }
       }
